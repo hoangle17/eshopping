@@ -7,21 +7,32 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordian" href="#sportswear_{{ $category->id }}">
+                            @if($category->categoryChildren->count())
+                                <a data-toggle="collapse" data-parent="#accordian"
+                                   href="#sportswear_{{ $category->id }}">
                                 <span class="badge pull-right">
-                                    @if($category->categoryChildren->count())
-                                        <i class="fa fa-plus"></i>
-                                    @endif
+                                    <i class="fa fa-plus"></i>
                                 </span>
-                                {{ $category->name }}
-                            </a>
+                                    {{ $category->name }}
+                                </a>
+                            @else
+                                <a href="{{ route('category.product', ['slug' => $category->slug, 'id'=>$category->id]) }}">
+                                <span class="badge pull-right">
+                                </span>
+                                    {{ $category->name }}
+                                </a>
+                            @endif
                         </h4>
                     </div>
                     <div id="sportswear_{{ $category->id }}" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul>
                                 @foreach($category -> categoryChildren as $categoryChildrenItem)
-                                    <li><a href="#">{{ $categoryChildrenItem->name }} </a></li>
+                                    <li>
+                                        <a href="{{ route('category.product', ['slug' => $categoryChildrenItem->slug, 'id'=>$categoryChildrenItem->id]) }}">
+                                            {{ $categoryChildrenItem->name }}
+                                        </a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
